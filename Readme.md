@@ -2,6 +2,10 @@
 
 This is a small a lightweight package implementing the observable pattern.
 
+## Installation
+
+`npm install reactive-observable`
+
 ## Usage
 
 ```typescript
