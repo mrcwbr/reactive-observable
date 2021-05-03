@@ -1,5 +1,5 @@
 {
-  "name": "observable",
+  "name": "reactive-observable",
   "version": "0.0.1",
   "description": "coming soon",
   "main": "dist/index.js",
