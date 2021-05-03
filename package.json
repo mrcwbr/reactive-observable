@@ -2,9 +2,11 @@
   "name": "observable",
   "version": "0.0.1",
   "description": "coming soon",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
@@ -13,6 +15,23 @@
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },
-  "author": "Marco Weber",
-  "license": "ISC"
+  "author": "mrcwbr",
+  "license": "ISC",
+  "files": [
+    "dist/*",
+    "README.md",
+    "Changelog.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrcwbr/reactive-observable"
+  },
+  "keywords": [
+    "observable",
+    "subscription",
+    "reactive",
+    "observable pattern",
+    "javascript",
+    "typescript"
+  ]
 }
