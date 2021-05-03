@@ -40,11 +40,37 @@ describe('Observable', () => {
       expect(firstSubscriber).not.toHaveBeenCalledWith(3);
       expect(secondSubscriber).toHaveBeenCalledWith(3);
     });
+
+    test('subscription should not be called if value did not change', () => {
+      const o = new Observable(1);
+      const firstSubscriber = jest.fn();
+      o.subscribe(firstSubscriber);
+      o.update(1);
+      expect(firstSubscriber).not.toHaveBeenCalled();
+    });
   });
 
   describe('object references', () => {
 
-    test('subscribe()', () => {
+    test('update() and subscribe()', () => {
+      const o = new Observable({ color: 'red', ps: 100 });
+
+      const firstSubscriber = jest.fn();
+      o.subscribe(firstSubscriber);
+      o.update({ color: 'blue', ps: 110 });
+
+      expect(firstSubscriber).toHaveBeenCalledWith({ color: 'blue', ps: 110 });
+    });
+
+    test('subscription should not be called if value did not change', () => {
+      const o = new Observable({ color: 'red', ps: 100 });
+      const firstSubscriber = jest.fn();
+      o.subscribe(firstSubscriber);
+      o.updatePartial({ color: 'red', ps: 100 });
+      expect(firstSubscriber).not.toHaveBeenCalled();
+    });
+
+    test('partial update()', () => {
       const o = new Observable({
         color: 'red',
         ps: 100
@@ -52,12 +78,30 @@ describe('Observable', () => {
 
       const firstSubscriber = jest.fn();
       o.subscribe(firstSubscriber);
-      o.update({ color: 'blue', ps: 110 });
+      o.updatePartial({ ps: 100 });
+      expect(firstSubscriber).not.toHaveBeenCalled();
 
-      expect(firstSubscriber).toHaveBeenCalledWith({ color: 'blue', ps: 110 });
+      o.updatePartial({ ps: 200 });
 
-      o.update({ ps: 200 });
-      expect(firstSubscriber).toHaveBeenCalledWith({ color: 'blue', ps: 200 });
+      expect(firstSubscriber).toHaveBeenCalledWith({ color: 'red', ps: 200 });
+    });
+
+    test('partial subscribe()', () => {
+      const o = new Observable({
+        color: 'red',
+        ps: 100
+      });
+
+      const firstSubscriber = jest.fn();
+      o.subscribe(firstSubscriber, 'ps');
+      o.updatePartial({ color: 'blue' });
+      expect(firstSubscriber).not.toHaveBeenCalled();
+
+      o.updatePartial({ ps: 100 });
+      expect(firstSubscriber).not.toHaveBeenCalled();
+
+      o.updatePartial({ ps: 200 });
+      expect(firstSubscriber).toHaveBeenCalledWith(200);
     });
 
   });
