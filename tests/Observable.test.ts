@@ -50,6 +50,15 @@ describe('Observable', () => {
     });
   });
 
+  test('value should be updated before subscription is notified', () => {
+    const o = new Observable(1);
+    const listener = () => {
+      expect(o.get()).toBe(2);
+    };
+    o.subscribe(listener);
+    o.update(2);
+  });
+
   describe('arrays', () => {
     const o = new Observable([1, 2, 3]);
     const array = o.get();

@@ -9,8 +9,9 @@ export default class Observable<T> {
   }
 
   public update(newValue: T) {
-    this.notify(this.value, newValue);
+    const oldValue = cloneDeep(this.value);
     this.value = newValue;
+    this.notify(oldValue, newValue);
   }
 
   public updatePartial(newPartialValue: Partial<T>) {
@@ -18,15 +19,15 @@ export default class Observable<T> {
     this.update(newValue);
   }
 
-  private notify(currentValue: T, newValue: T) {
-    if (isEqual(currentValue, newValue)) {
+  private notify(oldValue: T, newValue: T) {
+    if (isEqual(oldValue, newValue)) {
       return;
     }
 
     this.subscriber.forEach((subscriber: Subscriber<T>) => {
       const key = subscriber.propertyKey;
       if (key) {
-        if (!isEqual(currentValue[key], newValue[key])) {
+        if (!isEqual(oldValue[key], newValue[key])) {
           subscriber.callback(newValue[subscriber.propertyKey]);
         }
       } else {
