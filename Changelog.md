@@ -9,7 +9,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
-* `get()` has to return n copy of the stored value, otherwise it's not immutable
+* `get()` has to return a copy of the stored value, otherwise it's not immutable
 
 ## [1.1.0] - 2021-05-03
 
