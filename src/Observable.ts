@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash-es';
+import { cloneDeep, isEqual } from 'lodash-es';
 
 export default class Observable<T> {
   private value: T;
@@ -8,13 +8,12 @@ export default class Observable<T> {
     this.value = value;
   }
 
-  update(newValue: T) {
-    const wasValueChanged = !isEqual(this.value, newValue);
+  public update(newValue: T) {
     this.notify(this.value, newValue);
     this.value = newValue;
   }
 
-  updatePartial(newPartialValue: Partial<T>) {
+  public updatePartial(newPartialValue: Partial<T>) {
     const newValue = Object.assign({}, this.value, newPartialValue);
     this.update(newValue);
   }
@@ -36,20 +35,20 @@ export default class Observable<T> {
     });
   }
 
-  subscribe(callback: Callback<T>, propertyKey?: keyof T) {
+  public subscribe(callback: Callback<T>, propertyKey?: keyof T) {
     this.subscriber.push({
       callback,
       propertyKey,
     });
   }
 
-  removeSubscription(callback: Callback<T>) {
+  public removeSubscription(callback: Callback<T>) {
     const index = this.subscriber.findIndex((s: Subscriber<T>) => s.callback === callback);
     this.subscriber.splice(index, 1);
   }
 
-  get(): T {
-    return this.value;
+  public get(): T {
+    return cloneDeep(this.value);
   }
 }
 

@@ -50,7 +50,28 @@ describe('Observable', () => {
     });
   });
 
+  describe('arrays', () => {
+    const o = new Observable([1, 2, 3]);
+    const array = o.get();
+    expect(array).toEqual([1, 2, 3]);
+    array[0] = 9;
+    expect(o.get()).toEqual([1, 2, 3]);
+
+    const firstSubscriber = jest.fn();
+    o.subscribe(firstSubscriber);
+    o.update([1, 2, 3, 4]);
+    expect(firstSubscriber).toHaveBeenCalledWith([1, 2, 3, 4]);
+    expect(o.get()).toEqual([1, 2, 3, 4]);
+  });
+
   describe('object references', () => {
+
+    test('object should be immutable', () => {
+      const o = new Observable({ color: 'red', ps: 100 });
+      const car = o.get();
+      car.ps = 200;
+      expect(o.get().ps).toBe(100);
+    });
 
     test('update() and subscribe()', () => {
       const o = new Observable({ color: 'red', ps: 100 });
