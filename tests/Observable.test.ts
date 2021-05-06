@@ -59,6 +59,17 @@ describe('Observable', () => {
     o.update(2);
   });
 
+  test('remove function of a subscription', () => {
+    const o = new Observable(1);
+    const listener = jest.fn();
+    const subscription = o.subscribe(listener);
+    o.update(2);
+    expect(listener).toHaveBeenCalledWith(2);
+    subscription.remove();
+    o.update(3);
+    expect(listener).toHaveBeenCalledTimes(1);
+  });
+
   describe('arrays', () => {
     const o = new Observable([1, 2, 3]);
     const array = o.get();

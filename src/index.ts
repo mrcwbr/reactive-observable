@@ -1,5 +1,6 @@
 import Observable from './Observable';
 
 export {
-  Observable
+  Observable,
+  Observable as Obs,
 };

@@ -36,11 +36,15 @@ export default class Observable<T> {
     });
   }
 
-  public subscribe(callback: Callback<T>, propertyKey?: keyof T) {
+  public subscribe(callback: Callback<T>, propertyKey?: keyof T): Subscription {
     this.subscriber.push({
       callback,
       propertyKey,
     });
+
+    return {
+      remove: () => this.removeSubscription(callback)
+    };
   }
 
   public removeSubscription(callback: Callback<T>) {
@@ -54,7 +58,12 @@ export default class Observable<T> {
 }
 
 type Callback<T> = (value: unknown) => void;
+
 type Subscriber<T> = {
   callback: Callback<T>,
   propertyKey?: keyof T
+}
+
+export type Subscription = {
+  remove(): void
 }

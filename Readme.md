@@ -50,8 +50,10 @@ class Ui {
 It's also possible to watch object and update and subscribe to partial properties of an object.
 
 ```typescript
+import { Subscription } from "./Observable";
+
 class CarService {
-  public observableCar = new Observable({color: 'red', fuel: 100});
+  public observableCar = new Obs({color: 'red', fuel: 100}); // alias for Observable
 
   public drive() {
     const currentFuel = this.observableCar.get().fuel
@@ -61,10 +63,15 @@ class CarService {
 
 class CarUi {
   private readonly service: CarService
+  private subscription?: Subscription
 
   constructor() {
     this.service = new CarService();
-    this.service.observableCar.subscribe((fuel) => this.render(fuel), 'fuel');
+    this.subscription = this.service.observableCar.subscribe(this.render, 'fuel');
+  }
+
+  private onUnMount() {
+    this.service.observableCar.removeSubscription(this.render) // or this.subscription?.remove();
   }
 
   private render(fuel: number) {
