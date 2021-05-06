@@ -1,4 +1,4 @@
-import { cloneDeep, isEqual } from 'lodash-es';
+import { cloneDeep, isEqual } from 'lodash';
 
 export default class Observable<T> {
   private value: T;

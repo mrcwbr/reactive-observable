@@ -7,6 +7,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.1.2] - 2021-05-05
 
+### Changed
+
+* Removed `lodash-es`
+
+## [1.1.2] - 2021-05-05
+
 ### Fixed
 
 * time boxing bug which notified the subscription before the value was change
