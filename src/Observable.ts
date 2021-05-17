@@ -57,7 +57,7 @@ export default class Observable<T> {
   }
 }
 
-type Callback<T> = (value: unknown) => void;
+type Callback<T> = (value: T | T[keyof T]) => void;
 
 type Subscriber<T> = {
   callback: Callback<T>,
